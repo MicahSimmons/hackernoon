@@ -53,13 +53,14 @@ const TodoList = () => {
     <Box mt={5}>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
         {todos &&
-        todos.map((todo) => (
+        todos.map((todo,idx) => (
             <Box
                 p={3}
                 boxShadow="2xl"
                 shadow={"dark-lg"}
                 transition="0.2s"
                 _hover={{ boxShadow: "sm" }}
+                key={"map"+idx}
             >
                 <Heading as="h3" fontSize={"xl"}>
                     {todo.title}{" "}
