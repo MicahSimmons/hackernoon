@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
+import { doc, getDoc } from "firebase/firestore";
+
 const apiKey = `${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`;
 
 // Your web app's Firebase configuration

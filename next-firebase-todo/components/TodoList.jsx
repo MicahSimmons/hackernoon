@@ -7,6 +7,8 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import Link from 'next/link';
+
 import useAuth from "../hooks/useAuth";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../firebase";
@@ -17,11 +19,13 @@ const TodoList = () => {
     const [todos, setTodos] = React.useState([]);
     const {  user } = useAuth();
     const toast = useToast();
-    const refreshData = () => {
+  
+    useEffect(() => { 
         if (!user) {
             setTodos([]);
             return;
         }
+        console.log("here...");
         const q = query(collection(db, "todo"), where("user", "==", user.uid));
         onSnapshot(q, (querySnapchot) => {
             let ar = [];
@@ -30,8 +34,7 @@ const TodoList = () => {
             });
             setTodos(ar);
         });
-    };
-    useEffect(() => { refreshData(); }, [user]);
+    }, [user]);
 
     const handleTodoDelete = async (id) => {
         if (confirm("Are you sure you wanna delete this todo?")) {
@@ -63,7 +66,8 @@ const TodoList = () => {
                 key={"map"+idx}
             >
                 <Heading as="h3" fontSize={"xl"}>
-                    {todo.title}{" "}
+                    <Link href={"todo/"+todo.id}>{todo.title}</Link>
+                    {" "}
                     <Badge
                         color="red.500"
                         bg="inherit"
