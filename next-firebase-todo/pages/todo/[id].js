@@ -8,10 +8,6 @@ import {
 } from "@chakra-ui/react";
 
 import useAuth from "../../hooks/useAuth";
-
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-
 import Auth from "../../components/Auth";
 
 /* Get server side props can't be part of the component.  It has
@@ -30,6 +26,9 @@ export async function getServerSideProps(context) {
 } 
 
 const TodoPage = ( props ) => {
+    /* Hold on... since this is a react hook, does that mean user privacy enforcement
+     * only happens from the client side???
+     */
     const {  user } = useAuth();
 
     return (

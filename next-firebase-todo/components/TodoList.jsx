@@ -10,10 +10,8 @@ import React, { useEffect } from "react";
 import Link from 'next/link';
 
 import useAuth from "../hooks/useAuth";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../firebase";
 import { FaToggleOff, FaToggleOn, FaTrash } from "react-icons/fa";
-import { deleteTodo, toggleTodoStatus } from "../api/todo";
+import { deleteTodo, toggleTodoStatus, listenMine } from "../api/todo";
 
 const TodoList = () => {
     const [todos, setTodos] = React.useState([]);
@@ -26,14 +24,7 @@ const TodoList = () => {
             return;
         }
         console.log("here...");
-        const q = query(collection(db, "todo"), where("user", "==", user.uid));
-        onSnapshot(q, (querySnapchot) => {
-            let ar = [];
-            querySnapchot.docs.forEach((doc) => {
-                ar.push({ id: doc.id, ...doc.data() });
-            });
-            setTodos(ar);
-        });
+        listenMine(user.uid, setTodos);
     }, [user]);
 
     const handleTodoDelete = async (id) => {
