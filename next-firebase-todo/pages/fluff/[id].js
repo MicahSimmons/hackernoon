@@ -19,7 +19,7 @@ import { getData } from "../../api/firestore_admin";
 export async function getServerSideProps(context) {
     let itemData = null;
 
-    itemData = await getData("todo", context.params.id);
+    itemData = await getData("floof", context.params.id);
 
     return {
         props: {
@@ -35,7 +35,7 @@ function timestampToString ( epochSeconds ) {
     return t.toLocaleDateString();
 }
 
-const TodoPage = ( props ) => {
+const FloofPage = ( props ) => {
     /* Hold on... since this is a react hook, does that mean user privacy enforcement
      * only happens from the client side???
      */
@@ -44,7 +44,7 @@ const TodoPage = ( props ) => {
 
     return (
         <Container>
-          <Heading>{props.itemData.title}</Heading>
+          <Heading>{props.itemData.name}</Heading>
           <Text>{props.itemData.description}</Text>
           <Text>
             Started: {timestampToString(props.itemData.createdAt)}
@@ -53,4 +53,4 @@ const TodoPage = ( props ) => {
     )
 };
 
-export default TodoPage;
+export default FloofPage;

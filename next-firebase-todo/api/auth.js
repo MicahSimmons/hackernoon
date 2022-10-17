@@ -24,10 +24,14 @@ function signIn () {
         });
 }
 
+function signOut () {
+    getAuth().signOut();
+}
+
 function onAuthUpdate (callback) {
     getAuth().onAuthStateChanged((user) => {
         callback(user);
     });
 }
 
-export { signIn, onAuthUpdate };
+export { signIn, signOut, onAuthUpdate };

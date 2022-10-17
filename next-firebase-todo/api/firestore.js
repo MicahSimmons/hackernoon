@@ -1,5 +1,5 @@
 import { getDb } from "./firebase";
-import { collection, doc, getDoc, setDoc, onSnapshot, deleteDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, addDoc, getDoc, setDoc, onSnapshot, deleteDoc, getDocs, query, where } from "firebase/firestore";
 
 export async function queryCollection (collectionId, field, operator, value) {
     const collRef = collection(getDb(), collectionId);
@@ -41,6 +41,7 @@ export async function getData (collectionId, docId) {
 export async function createData (collectionId, newData) {
     const collRef = collection(getDb(), collectionId);
     try {
+        console.log(newData);
         await addDoc(collRef, newData);
     } catch (e) {
         console.log("createData failed.");
