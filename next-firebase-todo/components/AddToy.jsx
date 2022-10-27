@@ -106,7 +106,7 @@ class AddToy extends React.Component {
                     />
                     <Select value={this.state.rating} onChange={(e) => this.setState({rating: e.target.value})}>
                         <option value={"favorite"} style={{color: "yellow", fontWeight:"bold"}} >Best Toy Ever!</option>
-                        <option value={"secondary"} style={{color: "green", fontWeight:"bold"}} >Sure, that's ok.</option>
+                        <option value={"secondary"} style={{color: "green", fontWeight:"bold"}} >Sure, that&apos;s ok.</option>
 
                     </Select>
                     <Select value={this.state.type} onChange={(e) => this.setState({type: e.target.value})}>
