@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Box, Button, Menu, MenuList, MenuButton, MenuItem } from "@chakra-ui/react";
-import { BiChevronDownSquare } from "react-icons/Bi"
+import { BiChevronDownSquare } from "react-icons/bi"
 import Auth from "./Auth";
 import ColorMode from "./ColorMode";
 
