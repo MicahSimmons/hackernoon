@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { auth } from "../firebase";
+import { onAuthUpdate } from "../api/auth";
 
 const useAuth = () => {
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
-        auth.onAuthStateChanged((user) => {
+        onAuthUpdate((user) => {
             setIsLoggedIn(user && user.uid ? true : false);
             setUser(user);
-        });
+        })
     });
     return { user, isLoggedIn };
 };

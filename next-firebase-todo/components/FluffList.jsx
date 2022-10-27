@@ -11,34 +11,34 @@ import Link from 'next/link';
 
 import useAuth from "../hooks/useAuth";
 import { FaToggleOff, FaToggleOn, FaTrash } from "react-icons/fa";
-import { deleteTodo, toggleTodoStatus, listenMine } from "../api/todo";
+import { deleteFloof, toggleFloofStatus, listenMyFloofs } from "../api/floof";
 
-const TodoList = () => {
-    const [todos, setTodos] = React.useState([]);
+const FloofList = () => {
+    const [floofs, setFloofs] = React.useState([]);
     const {  user } = useAuth();
     const toast = useToast();
   
     useEffect(() => { 
         if (!user) {
-            setTodos([]);
+            setFloofs([]);
             return;
         }
         console.log("here...");
-        listenMine(user.uid, setTodos);
+        listenMyFloofs(user.uid, setFloofs);
     }, [user]);
 
-    const handleTodoDelete = async (id) => {
-        if (confirm("Are you sure you wanna delete this todo?")) {
-            deleteTodo(id);
-            toast({ title: "Todo deleted successfully", status: "success" });
+    const handleFloofDelete = async (id) => {
+        if (confirm("Are you sure you wanna delete this pupper?")) {
+            deleteFloof(id);
+            toast({ title: "Floof removed successfully", status: "success" });
         }
     };
     const handleToggle = async (id, status) => {
-        const newStatus = status == "completed" ? "pending" : "completed";
-        await toggleTodoStatus({ docId: id, status: newStatus });
+        const newStatus = status == "adopted" ? "foster" : "adopted";
+        await toggleFloofStatus({ docId: id, adopted: newStatus });
         toast({
-            title: `Todo marked ${newStatus}`,
-            status: newStatus == "completed" ? "success" : "warning",
+            title: `Floof marked ${newStatus}`,
+            status: newStatus == "adopted" ? "success" : "warning",
         });
     };
 
@@ -46,8 +46,8 @@ const TodoList = () => {
     return (
     <Box mt={5}>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-        {todos &&
-        todos.map((todo,idx) => (
+        {floofs &&
+        floofs.map((dogo,idx) => (
             <Box
                 p={3}
                 boxShadow="2xl"
@@ -57,7 +57,7 @@ const TodoList = () => {
                 key={"map"+idx}
             >
                 <Heading as="h3" fontSize={"xl"}>
-                    <Link href={"todo/"+todo.id}>{todo.title}</Link>
+                    <Link href={"fluff/"+dogo.id}>{dogo.name}</Link>
                     {" "}
                     <Badge
                         color="red.500"
@@ -69,12 +69,12 @@ const TodoList = () => {
                         }}
                         float="right"
                         size="xs"
-                        onClick={() => handleTodoDelete(todo.id)}
+                        onClick={() => handleFloofDelete(dogo.id)}
                     >
                         <FaTrash />
                     </Badge>
                     <Badge
-                        color={todo.status == "pending" ? "gray.500" : "green.500"}
+                        color={dogo.adopted == "foster" ? "gray.500" : "green.500"}
                         bg="inherit"
                         transition={"0.2s"}
                         _hover={{
@@ -83,23 +83,23 @@ const TodoList = () => {
                         }}
                         float="right"
                         size="xs"
-                        onClick={() => handleToggle(todo.id, todo.status)}
+                        onClick={() => handleToggle(dogo.id, dogo.adopted)}
                     >
-                        {todo.status == "pending" ? <FaToggleOff /> : <FaToggleOn />}
+                        {dogo.adopted == "foster" ? <FaToggleOff /> : <FaToggleOn />}
                     </Badge>
                     <Badge
                         float="right"
                         opacity="0.8"
-                        bg={todo.status == "pending" ? "yellow.500" : "green.500"}
+                        bg={dogo.adopted == "foster" ? "yellow.500" : "green.500"}
                     >
-                        {todo.status}
+                        {dogo.adopted}
                     </Badge>
                 </Heading>
-                <Text>{todo.description}</Text>
+                <Text>{dogo.description}</Text>
             </Box>
         ))}
         </SimpleGrid>
     </Box>
     );
 };
-export default TodoList;
+export default FloofList;

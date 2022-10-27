@@ -1,10 +1,10 @@
 import { Container } from "@chakra-ui/react";
-import TodoList from "../components/TodoList";
+import AddToy from "../../components/AddToy";
 
-export default function Home( props ) {
+export default function AddToyPage() {
   return (
     <Container maxW="7x1">
-      <TodoList />
+      <AddToy />
     </Container>
   )
 }

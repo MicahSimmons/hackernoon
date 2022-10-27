@@ -11,34 +11,35 @@ import Link from 'next/link';
 
 import useAuth from "../hooks/useAuth";
 import { FaToggleOff, FaToggleOn, FaTrash } from "react-icons/fa";
-import { deleteTodo, toggleTodoStatus, listenMine } from "../api/todo";
+import { deleteToy, toggleToyStatus, listenMyToys } from "../api/toys";
 
-const TodoList = () => {
-    const [todos, setTodos] = React.useState([]);
+const ToyList = () => {
+    const [toys, setToys] = React.useState([]);
     const {  user } = useAuth();
     const toast = useToast();
   
     useEffect(() => { 
         if (!user) {
-            setTodos([]);
+            setToys([]);
             return;
         }
         console.log("here...");
-        listenMine(user.uid, setTodos);
+        listenMyToys(user.uid, setToys);
     }, [user]);
 
-    const handleTodoDelete = async (id) => {
-        if (confirm("Are you sure you wanna delete this todo?")) {
-            deleteTodo(id);
-            toast({ title: "Todo deleted successfully", status: "success" });
+    const handleToyDelete = async (id) => {
+        if (confirm("Are you sure you wanna delete this pupper?")) {
+            deleteToy(id);
+            toast({ title: "Toy removed successfully", status: "success" });
         }
     };
     const handleToggle = async (id, status) => {
-        const newStatus = status == "completed" ? "pending" : "completed";
-        await toggleTodoStatus({ docId: id, status: newStatus });
+        const newStatus = status == "favorite" ? "secondary" : "favorite";
+        await toggleToyStatus({ docId: id, rating: newStatus });
+        console.log(`Toy marked ${newStatus}`)
         toast({
-            title: `Todo marked ${newStatus}`,
-            status: newStatus == "completed" ? "success" : "warning",
+            title: `Toy marked ${newStatus}`,
+            status: "success",
         });
     };
 
@@ -46,8 +47,8 @@ const TodoList = () => {
     return (
     <Box mt={5}>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-        {todos &&
-        todos.map((todo,idx) => (
+        {toys &&
+        toys.map((toy,idx) => (
             <Box
                 p={3}
                 boxShadow="2xl"
@@ -57,7 +58,7 @@ const TodoList = () => {
                 key={"map"+idx}
             >
                 <Heading as="h3" fontSize={"xl"}>
-                    <Link href={"todo/"+todo.id}>{todo.title}</Link>
+                    <Link href={"toys/"+toy.id}>{toy.name}</Link>
                     {" "}
                     <Badge
                         color="red.500"
@@ -69,12 +70,12 @@ const TodoList = () => {
                         }}
                         float="right"
                         size="xs"
-                        onClick={() => handleTodoDelete(todo.id)}
+                        onClick={() => handleToyDelete(toy.id)}
                     >
                         <FaTrash />
                     </Badge>
                     <Badge
-                        color={todo.status == "pending" ? "gray.500" : "green.500"}
+                        color={toy.rating == "favorite" ? "gray.500" : "green.500"}
                         bg="inherit"
                         transition={"0.2s"}
                         _hover={{
@@ -83,23 +84,29 @@ const TodoList = () => {
                         }}
                         float="right"
                         size="xs"
-                        onClick={() => handleToggle(todo.id, todo.status)}
+                        onClick={() => handleToggle(toy.id, toy.rating)}
                     >
-                        {todo.status == "pending" ? <FaToggleOff /> : <FaToggleOn />}
+                        {toy.rating == "secondary" ? <FaToggleOff /> : <FaToggleOn />}
                     </Badge>
                     <Badge
                         float="right"
                         opacity="0.8"
-                        bg={todo.status == "pending" ? "yellow.500" : "green.500"}
+                        bg={toy.rating == "secondary" ? "yellow.500" : "green.500"}
                     >
-                        {todo.status}
+                        {toy.rating}
                     </Badge>
+                    <Badge
+                        float="right"
+                        opacity="0.8"
+                        bg="green.500">
+                            {toy.type}
+                        </Badge>
                 </Heading>
-                <Text>{todo.description}</Text>
+                <Text>{toy.description}</Text>
             </Box>
         ))}
         </SimpleGrid>
     </Box>
     );
 };
-export default TodoList;
+export default ToyList;
