@@ -8,7 +8,7 @@ const addTodo = async ({ userId, title, description, status}) => {
         status: status,
         createdAt: new Date().getTime()
     }
-    await createData("todo", newData);
+    await createData("todo", data);
 };
 
 const toggleTodoStatus = async ({ docId, status }) => {

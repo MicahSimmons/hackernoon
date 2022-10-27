@@ -29,6 +29,13 @@ export class Navbar extends React.Component {
                             <MenuItem><Link href="/fluff/add">Add Furballs</Link></MenuItem>
                         </MenuList>
                     </Menu>
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<BiChevronDownSquare />}>Puppy Toys</MenuButton>
+                        <MenuList>
+                            <MenuItem><Link href="/toys">List Toys</Link></MenuItem>
+                            <MenuItem><Link href="/toys/add">Add Toys</Link></MenuItem>
+                        </MenuList>
+                    </Menu>
                 </Box>
 
                 <Box display="flex" alignItems="right">
